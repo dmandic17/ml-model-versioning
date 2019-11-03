@@ -10,5 +10,8 @@ module.exports = {
     //storage: './mlversioning.mysql'
     
 }
-}
+},
+  authentication:{
+        jwtSecret: process.env.JWT_SECRET || 'secret'
+  }
 }
