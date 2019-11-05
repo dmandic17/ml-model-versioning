@@ -1,9 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
     const Project = sequelize.define('Project', {
         name: {
-            type: DataTypes.STRING,
-            unique: true,
-            primaryKey: true,
+            type: DataTypes.STRING
         },
         description: {
             type: DataTypes.TEXT
@@ -12,6 +10,9 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         }
     })
+
+    const Model = sequelize.import('../models/Model')
+    Project.hasMany(Model, {as:'Models'})
 
     return Project
 }

@@ -11,6 +11,12 @@ module.exports = (app) => {
     app.get('/projects',
         ProjectController.getProjects)
     app.post('/newProject',
-        ProjectController.newProject)
+        ProjectController.newProject),
+        app.get('/editProject/:id',
+            ProjectController.show)
+    app.put('/editProject/:id',
+        ProjectController.updateProject)
+    app.delete('/deleteProject/:id',
+        ProjectController.deleteProject)
 
 };

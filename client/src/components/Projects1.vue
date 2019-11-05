@@ -19,7 +19,14 @@
             <div class="card-body">
               {{project.description}}
             </div>
-            <button type="button" class="btn btn-dark btn-xl">All models</button><br>
+            <router-link tag="button" class="btn btn-xl" :to="{
+              name: 'editProject',
+              params: {
+                id: project.id
+              }
+            }">Edit</router-link>
+
+            <button type="button" class="btn btn-dark btn-xl">All models</button>
           </div>
         </div>
     </div>
@@ -46,7 +53,7 @@ export default {
   },
   async mounted () {
     console.log(this.user)
-    if (this.isUserLoggedIn) { this.projects = (await ProjectsService.getProjects(this.user)).data }
+    if (this.isUserLoggedIn) { this.projects = (await ProjectsService.getProjects({email: this.user.email})).data }
   }
 }
 </script>

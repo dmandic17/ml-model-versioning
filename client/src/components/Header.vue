@@ -9,9 +9,9 @@
         <li v-if="$store.state.isUserLoggedIn" class="nav-item active">
           <router-link class="nav-link" :to="{ name: 'projects'}">Projects</router-link>
         </li>
-        <li v-if="$store.state.isUserLoggedIn" class="nav-item">
+        <!--<li v-if="$store.state.isUserLoggedIn" class="nav-item">
           <router-link class="nav-link" :to="{ name: 'favorites'}">Favorites</router-link>
-        </li>
+        </li>-->
         <li v-if="$store.state.isUserLoggedIn" class="nav-item">
           <router-link class="nav-link" :to="{ name: 'search'}">Search</router-link>
         </li>

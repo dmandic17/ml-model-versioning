@@ -7,6 +7,7 @@ import Projects1 from '@/components/Projects1'
 import Favorites from '@/components/Favorites'
 import Search from '@/components/Search'
 import NewProject from '@/components/NewProject'
+import UpdateProject from '@/components/UpdateProject';
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/search',
       name: 'search',
       component: Search
+    },
+    {
+      path: '/editProject',
+      name: 'editProject',
+      component: UpdateProject
     }
   ]
 })

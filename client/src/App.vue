@@ -1,5 +1,6 @@
 <template>
   <div>
+  <a href="https://www.freepik.com/free-photos-vectors/background"></a>
     <my-header></my-header>
   <main>
   <div id="app">
@@ -18,7 +19,6 @@ export default {
   }
 }
 </script>
-
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -26,5 +26,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   margin-top: 60px;
+  background-image: url('/assets/m.jpg');
 }
 </style>
