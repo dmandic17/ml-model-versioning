@@ -3,7 +3,9 @@ import App from './App'
 import router from './router'
 import {sync} from 'vuex-router-sync'
 import store from '.\\store\\store'
+import Vuelidate from 'vuelidate'
 
+Vue.use(Vuelidate)
 Vue.config.productionTip = false
 sync(store, router)
 
