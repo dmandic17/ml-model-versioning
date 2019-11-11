@@ -2,21 +2,52 @@
  <div class="card align-items-center">
      <div class="card-body">
        <h5>Please choose the date for search:</h5><br>
-   <datepickerx inline :language="en" @select="filter"></datepickerx>
+   <input v-model="d" type="date" inline  @change="filter"/>
+       <div v-for="(model,index) in models" :key="model.id" >
+         <div class="accordion" id="accordionExample">
+           <div class="card">
+             <div class="card-header" v-bind:id="'heading'+index">
+               <h2 class="mb-0">
+                 <button class="btn btn-link" role="button" data-toggle="collapse" v-bind:data-target="'#collapse'+index" aria-expanded="false" v-bind:aria-controls="'collapse'+index">
+                   <b>{{model.name}}</b><br>
+                   <i>{{model.groupName}}</i><br>
+                 </button>
+               </h2>
+             </div>
+
+             <div v-bind:id="'collapse'+index" class="collapse" v-bind:aria-labelledby="'heading'+index" data-parent="#accordionExample">
+               <div class="card-body">
+                 <p class="font-weight-light">{{model.description}}}</p>
+               </div>
+               <router-link tag="button" class="btn btn-xl" :to="{
+              name: 'editModel',
+              params: {
+                id: model.id
+              }
+            }">Edit</router-link>
+             </div>
+           </div>
+         </div>
+       </div>
  </div>
  </div>
 </template>
 
 <script>
-import Datepicker from 'vuejs-datepicker'
+import ModelsService from '../services/ModelsService'
+
 export default {
   name: 'Search',
-  components: {
-    'datepickerx': Datepicker
+  data () {
+    return {
+      models: null,
+      d: null
+    }
   },
   methods: {
-    filter () {
-
+    async filter () {
+      this.models = (await ModelsService.search(this.d)).data
+      console.log(this.models)
     }
   }
 }

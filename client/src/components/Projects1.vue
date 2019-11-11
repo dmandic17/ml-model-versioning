@@ -1,10 +1,9 @@
 <template>
 <div class="card align-items-center">
   <div class="card-body">
-
-    <button type="button" class="btn btn-dark btn-circle btn-xl"><router-link :to="{ name: 'newProject'}">+</router-link></button>
+    <router-link class="btn btn-dark btn-circle btn-xl" :to="{ name: 'newProject'}">+</router-link>
     <br><br>
-    <div v-for="(project,index) in projects" :key="project.name" >
+    <div v-for="(project,index) in this.projects" :key="project.name" >
       <div class="accordion" id="accordionExample">
         <div class="card">
           <div class="card-header" v-bind:id="'heading'+index">
@@ -25,8 +24,12 @@
                 id: project.id
               }
             }">Edit</router-link>
-
-            <button type="button" class="btn btn-dark btn-xl">All models</button>
+            <router-link tag="button" class="btn btn-dark btn-xl" :to="{
+              name: 'models',
+              params: {
+                id: project.id
+              }
+            }">All models</router-link>
           </div>
         </div>
     </div>
@@ -36,24 +39,23 @@
 </template>
 
 <script>
-import ProjectsService from '@/services/ProjectsService'
-import {mapState} from 'vuex'
+import {mapState, mapActions} from 'vuex'
 export default {
   name: 'Projects',
-  data () {
-    return {
-      projects: []
-    }
-  },
   computed: {
     ...mapState([
-      'isUserLoggedIn',
+      'projects',
       'user'
     ])
   },
-  async mounted () {
-    console.log(this.user)
-    if (this.isUserLoggedIn) { this.projects = (await ProjectsService.getProjects({email: this.user.email})).data }
+  methods: {
+    ...mapActions(['loadProjects'])
+  },
+  mounted: function () {
+    if (this.user) {
+      const email = this.user.email
+      this.loadProjects(email)
+    }
   }
 }
 </script>

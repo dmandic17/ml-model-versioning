@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-body">
       <h1>Edit <b>{{project.name}}</b> description:</h1>
-      <br><br><br><textarea class="form-control" value="prjDesc" rows="3" v-model="description" placeholder="Description"/>
+      <br><br><br><textarea id="t1" class="form-control" rows="5" v-model="desc" placeholder="Description"/>
       <br><br><div class ="error" v-html="error"/><br>
       <router-link @click.native="radi" tag="button" class="btn btn-dark btn-xl" :to="{
               name: 'projects'
@@ -15,41 +15,51 @@
 </template>
 
 <script>
-import ProjectsService from '../services/ProjectsService'
-import {mapState} from 'vuex'
+import {mapState, mapActions} from 'vuex'
 export default {
   data () {
     return {
-      project: null
+      desc: null
     }
   },
   computed: {
     ...mapState([
       'isUserLoggedIn',
       'user',
-      'route'
+      'route',
+      'project'
     ])
 
   },
-  async mounted () {
+  mounted: function () {
     const prjId = this.$store.state.route.params.id
-    this.project = (await ProjectsService.show(prjId)).data
+    // console.log(prjId)
+    this.loadProject(prjId)
+    // this.desc = this.project.description
+    // console.log(this.project.description)
   },
   methods: {
+    ...mapActions(['updateProject', 'loadProject', 'deleteProject']),
     radi: async function () {
       try {
-        await ProjectsService.updateProject({
+        const prj = {
           id: this.project.id,
-          name: this.project.name,
-          description: this.description
-        })
+          project: {
+            id: this.project.id,
+            name: this.project.name,
+            description: this.desc
+          }
+        }
+        const jaa = JSON.stringify(prj)
+        this.updateProject(jaa)
       } catch (err) {
         console.log(err)
       }
     },
     del: async function () {
       try {
-        await ProjectsService.deleteProject(this.project.id)
+        const prjId = this.project.id
+        this.deleteProject(prjId)
       } catch (err) {
         console.log(err)
       }

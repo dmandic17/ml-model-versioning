@@ -4,7 +4,7 @@
     <my-header></my-header>
   <main>
   <div id="app">
-      <router-view/>
+      <router-view :key="$router.fullPath"/>
   </div>
   </main>
   </div>
@@ -12,6 +12,7 @@
 
 <script>
 import Header from './components/Header'
+import {mapActions} from 'vuex'
 export default {
   name: 'App',
   components: {
@@ -20,6 +21,10 @@ export default {
 }
 </script>
 <style>
+  body {
+    background-image: url('../src/assets/m.jpg');
+    background-size: cover;
+  }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -13,7 +13,7 @@
 
 <script>
 import ProjectsService from '../services/ProjectsService'
-import {mapState} from 'vuex'
+import {mapState, mapActions} from 'vuex'
 export default {
   data () {
     return {
@@ -26,18 +26,19 @@ export default {
   computed: {
     ...mapState([
       'isUserLoggedIn',
-      'user'
+      'user', 'projects'
     ])
   },
   methods: {
+    ...mapActions(['newProject']),
     radi: async function () {
       try {
-        console.log('helooooo')
-        await ProjectsService.newProject({
+        const prj = JSON.stringify({
           name: this.name,
           description: this.description,
           owner: this.user.email
-        }).data
+        })
+        this.newProject(prj)
         await this.$router.push({
           name: 'projects'
         })

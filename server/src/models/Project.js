@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
         }
     })
 
-    const Model = sequelize.import('../models/Model')
-    Project.hasMany(Model, {as:'Models'})
+    //const Model = sequelize.import('../models/Model')
+    //Project.hasMany(Model,{as:'Models'})
 
     return Project
 }
