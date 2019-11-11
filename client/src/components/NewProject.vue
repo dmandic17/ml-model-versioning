@@ -3,22 +3,26 @@
     <div class="card-body">
       <h1>New Project</h1>
       <br>
-      <input type="text" v-model="name"  placeholder="Enter name">
-      <br><br><textarea class="form-control" rows="3" v-model="description" placeholder="Description"/>
+      <form @submit.prevent="handleSubmit">
+      <input type="text" v-model="name"  placeholder="Enter name" :class="{ 'is-invalid':this.$v.name.$error }"/>
+        <br> <div v-if="this.$v.name.$error" class="small"><small v-if="this.$v.name.$error">You cannot leave name empty.</small></div>
+      <br><br><textarea class="form-control" rows="3" v-model="description" placeholder="Description" :class="{ 'is-invalid':this.$v.description.$error }"/>
+        <br> <div v-if="this.$v.description.$error" class="small"><small v-if="this.$v.description.$error">You cannot leave description empty.</small></div>
       <br><br><div class ="error" v-html="error"/><br>
-      <button @click="radi" type="submit" class="btn"> Submit </button>
+      <button type="submit" class="btn"> Submit </button>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
-import ProjectsService from '../services/ProjectsService'
 import {mapState, mapActions} from 'vuex'
+import {required} from 'vuelidate/lib/validators'
 export default {
   data () {
     return {
-      name: '',
-      description: '',
+      name: null,
+      description: null,
       owner: null,
       error: null
     }
@@ -28,6 +32,10 @@ export default {
       'isUserLoggedIn',
       'user', 'projects'
     ])
+  },
+  validations: {
+    name: {required},
+    description: {required}
   },
   methods: {
     ...mapActions(['newProject']),
@@ -45,6 +53,14 @@ export default {
       } catch (error) {
         this.error = error.response.data.error
       }
+    },
+    handleSubmit (e) {
+
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        return
+      }
+      this.radi()
     }
   }
 }

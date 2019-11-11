@@ -2,20 +2,22 @@
   <div class="card">
     <div class="card-body">
       <h1>Edit <b>{{project.name}}</b> description:</h1>
-      <br><br><br><textarea id="t1" class="form-control" rows="5" v-model="desc" placeholder="Description"/>
+      <form @submit.prevent="handleSubmit">
+        <br><br><textarea class="form-control" rows="3" v-model="desc" placeholder="Description" :class="{ 'is-invalid':this.$v.desc.$error }"/>
+        <br> <div v-if="this.$v.desc.$error" class="small"><small v-if="this.$v.desc.$error">You cannot leave description empty.</small></div>
       <br><br><div class ="error" v-html="error"/><br>
-      <router-link @click.native="radi" tag="button" class="btn btn-dark btn-xl" :to="{
-              name: 'projects'
-            }">Save</router-link>
+      <button type="submit" tag="button" class="btn btn-dark btn-xl">Save</button>
       <router-link @click.native="del" tag="button" class="btn btn-dark btn-xl" :to="{
               name: 'projects'
             }">Delete</router-link>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex'
+import {required} from 'vuelidate/lib/validators'
 export default {
   data () {
     return {
@@ -38,6 +40,10 @@ export default {
     // this.desc = this.project.description
     // console.log(this.project.description)
   },
+
+  validations: {
+    desc: {required}
+  },
   methods: {
     ...mapActions(['updateProject', 'loadProject', 'deleteProject']),
     radi: async function () {
@@ -52,8 +58,11 @@ export default {
         }
         const jaa = JSON.stringify(prj)
         this.updateProject(jaa)
+        await this.$router.push({
+          name: 'projects'
+        })
       } catch (err) {
-        console.log(err)
+        this.error = err.body.error
       }
     },
     del: async function () {
@@ -63,6 +72,13 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    handleSubmit (e) {
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        return
+      }
+      this.radi()
     }
   }
 }
