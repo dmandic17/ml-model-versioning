@@ -1,6 +1,9 @@
+
+<!--this component is not used-->
 <template>
   <div class="card">
-    <div class="card-body">
+    <h1 v-if="!$store.state.isUserLoggedIn"> You are not logged in.</h1>
+    <div v-if="$store.state.isUserLoggedIn" class="card-body">
       <h1>Edit <b>{{model.name}}</b> description:</h1>
       <br><br><br><textarea class="form-control" rows="5" v-model="description" placeholder="Description"/>
       <br><br><br><textarea class="form-control" rows="1" v-model="groupName" placeholder="Group Name"/>

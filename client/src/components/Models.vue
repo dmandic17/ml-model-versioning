@@ -1,6 +1,7 @@
 <template>
   <div class="card align-items-center">
-    <div class="card-body">
+    <h1 v-if="!$store.state.isUserLoggedIn"> You are not logged in.</h1>
+    <div v-if="$store.state.isUserLoggedIn" class="card-body">
 
       <router-link class="btn btn-dark btn-circle btn-xl" :to="{ name: 'newModel'}">+</router-link>
       <br><br>
@@ -23,12 +24,12 @@
                 <p class="font-red">inferenceTime:   {{model.inferenceTime}}</p>
                 <p class="font-black">metricsResult:   {{model.metricsResult}}</p>
               </div>
-              <router-link tag="button" class="btn btn-xl" :to="{
+              <!--<router-link tag="button" class="btn btn-xl" :to="{
               name: 'editModel',
               params: {
                 id: model.id
               }
-            }">Edit</router-link>
+            }">Edit</router-link> -->
             </div>
           </div>
         </div>

@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 const apiBaseUrl = 'http://localhost:8081'
@@ -46,9 +45,6 @@ export default new Vuex.Store({
     },
 
     updateProject: function (state, payload) {
-      console.log(payload)
-      console.log(payload.id)
-      console.log(payload.project)
       for (let m = 0; m < state.projects.length; m++) {
         if (state.projects[m].id === parseInt(payload.id)) {
           state.projects[m].description = payload.project.description
@@ -73,7 +69,6 @@ export default new Vuex.Store({
     },
 
     updateModel: function (state, payload) {
-      console.log(payload)
       for (let m = 0; m < state.models.length; m++) {
         if (state.models[m].id === parseInt(payload.id)) {
           state.models[m].ProjectId = payload.project.ProjectId
@@ -97,7 +92,7 @@ export default new Vuex.Store({
       commit('setUser', user)
     },
     loadProjects: function ({ commit }, email) {
-      fetch(apiBaseUrl + `/projects?email=${email}`, { method: 'get' }).then((response) => {
+      fetch(apiBaseUrl + `/projects1?email=${email}`, { method: 'get' }).then((response) => {
         if (!response.ok) { throw response }
         return response.json()
       }).then((jsonData) => {
@@ -111,7 +106,7 @@ export default new Vuex.Store({
       })
     },
     loadProject: function ({ commit }, id) {
-      fetch(apiBaseUrl + `/editProject/${id}`, { method: 'get' }).then((response) => {
+      fetch(apiBaseUrl + `/editProject1/${id}`, { method: 'get' }).then((response) => {
         if (!response.ok) { throw response }
         return response.json()
       }).then((jsonData) => {
@@ -125,7 +120,7 @@ export default new Vuex.Store({
       })
     },
     loadModel: function ({ commit }, id) {
-      fetch(apiBaseUrl + `/editModel/${id}`, { method: 'get' }).then((response) => {
+      fetch(apiBaseUrl + `/editModel1/${id}`, { method: 'get' }).then((response) => {
         if (!response.ok) { throw response }
         return response.json()
       }).then((jsonData) => {
@@ -140,7 +135,7 @@ export default new Vuex.Store({
     },
 
     deleteProject: function ({ commit }, id) {
-      fetch(apiBaseUrl + `/editProject/${id}`, { method: 'delete' }).then((response) => {
+      fetch(apiBaseUrl + `/editProject1/${id}`, { method: 'delete' }).then((response) => {
         if (!response.ok) { throw response }
 
         return response.json()
@@ -156,7 +151,7 @@ export default new Vuex.Store({
     },
 
     newProject: function ({ commit }, message) {
-      fetch(apiBaseUrl + '/newProject', {
+      fetch(apiBaseUrl + '/newProject1', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'
@@ -179,7 +174,7 @@ export default new Vuex.Store({
 
     updateProject: function ({ commit }, payload) {
       const pay = JSON.parse(payload)
-      fetch(apiBaseUrl + `/editProject/${pay.id}`, {
+      fetch(apiBaseUrl + `/editProject1/${pay.id}`, {
         method: 'put',
         headers: {
           'Content-Type': 'application/json'
@@ -199,7 +194,7 @@ export default new Vuex.Store({
       })
     },
     loadModels: function ({ commit }, id) {
-      fetch(apiBaseUrl + `/models?ProjectId=${id}`, { method: 'get' }).then((response) => {
+      fetch(apiBaseUrl + `/models1?ProjectId=${id}`, { method: 'get' }).then((response) => {
         if (!response.ok) { throw response }
 
         return response.json()
@@ -215,7 +210,7 @@ export default new Vuex.Store({
     },
 
     deleteModel: function ({ commit }, id) {
-      fetch(apiBaseUrl + `/editModel/${id}`, { method: 'delete' }).then((response) => {
+      fetch(apiBaseUrl + `/editModel1/${id}`, { method: 'delete' }).then((response) => {
         if (!response.ok) { throw response }
 
         return response.json()
@@ -231,7 +226,7 @@ export default new Vuex.Store({
     },
 
     newModel: function ({ commit }, message) {
-      fetch(apiBaseUrl + '/newModel', {
+      fetch(apiBaseUrl + '/newModel1', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'
@@ -254,7 +249,7 @@ export default new Vuex.Store({
 
     updateModel: function ({ commit }, payload) {
       const pay = JSON.parse(payload)
-      fetch(apiBaseUrl + `/editModel/${pay.id}`, {
+      fetch(apiBaseUrl + `/editModel1/${pay.id}`, {
         method: 'put',
         headers: {
           'Content-Type': 'application/json'

@@ -15,9 +15,9 @@ module.exports = {
                 const project = await Project.create(req.body)
                 res.send(project)
             }
-            else res.send({message: 'Duplicate'})
+            else throw onerror
         } catch (err) {
-            res.status(500).send({
+            res.status(400).send({
                 error: 'Duplicate name of the project.'
             })
 

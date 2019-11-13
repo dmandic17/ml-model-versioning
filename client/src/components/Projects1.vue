@@ -1,6 +1,7 @@
 <template>
 <div class="card align-items-center">
-  <div class="card-body">
+  <h1 v-if="!$store.state.isUserLoggedIn"> You are not logged in.</h1>
+  <div v-if="$store.state.isUserLoggedIn" class="card-body">
     <router-link class="btn btn-dark btn-circle btn-xl" :to="{ name: 'newProject'}">+</router-link>
     <br><br>
     <div v-for="(project,index) in this.projects" :key="project.name" >

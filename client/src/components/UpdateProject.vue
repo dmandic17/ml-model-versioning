@@ -1,11 +1,13 @@
 <template>
   <div class="card">
-    <div class="card-body">
+    <h1 v-if="!$store.state.isUserLoggedIn"> You are not logged in.</h1>
+    <div v-if="$store.state.isUserLoggedIn" class="card-body">
       <h1>Edit <b>{{project.name}}</b> description:</h1>
       <form @submit.prevent="handleSubmit">
         <br><br><textarea class="form-control" rows="3" v-model="desc" placeholder="Description" :class="{ 'is-invalid':this.$v.desc.$error }"/>
         <br> <div v-if="this.$v.desc.$error" class="small"><small v-if="this.$v.desc.$error">You cannot leave description empty.</small></div>
       <br><br><div class ="error" v-html="error"/><br>
+
       <button type="submit" tag="button" class="btn btn-dark btn-xl">Save</button>
       <router-link @click.native="del" tag="button" class="btn btn-dark btn-xl" :to="{
               name: 'projects'
@@ -21,7 +23,7 @@ import {required} from 'vuelidate/lib/validators'
 export default {
   data () {
     return {
-      desc: null
+      desc1: null
     }
   },
   computed: {
@@ -30,9 +32,24 @@ export default {
       'user',
       'route',
       'project'
-    ])
+    ]),
+    // desc: function () { return this.project.description }
+    desc: {
+      set: function (newValue) {
+        this.desc1 = newValue
+      },
+      get: function () {
+        if (this.desc1 === null) this.desc1 = this.project.description
+        return this.desc1
+      }
+    }
 
   },
+  /* beforeCreate () {
+    const prjId = this.$store.state.route.params.id
+    // console.log(prjId)
+    this.loadProject(prjId)
+  }, */
   mounted: function () {
     const prjId = this.$store.state.route.params.id
     // console.log(prjId)
@@ -53,7 +70,7 @@ export default {
           project: {
             id: this.project.id,
             name: this.project.name,
-            description: this.desc
+            description: this.desc1
           }
         }
         const jaa = JSON.stringify(prj)

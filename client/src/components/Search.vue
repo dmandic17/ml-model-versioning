@@ -1,6 +1,7 @@
 <template>
  <div class="card align-items-center">
-     <div class="card-body">
+   <h1 v-if="!$store.state.isUserLoggedIn"> You are not logged in.</h1>
+   <div v-if="$store.state.isUserLoggedIn" class="card-body">
        <h5>Please choose the date for search:</h5><br>
    <input v-model="d" type="date" inline  @change="filter"/>
        <div v-for="(model,index) in models" :key="model.id" >

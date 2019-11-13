@@ -1,6 +1,7 @@
 <template>
   <div class="card">
-    <div class="card-body">
+    <h1 v-if="!$store.state.isUserLoggedIn"> You are not logged in.</h1>
+    <div v-if="$store.state.isUserLoggedIn" class="card-body">
       <h1>New Project</h1>
       <br>
       <form @submit.prevent="handleSubmit">
